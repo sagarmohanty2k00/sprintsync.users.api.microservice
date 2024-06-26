@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
-	"user-service/pkg/db"
-	"user-service/pkg/models"
+
+	"sprintsync.com/users/pkg/db"
+	"sprintsync.com/users/pkg/models"
 
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
@@ -47,8 +48,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		UpdatedAt:    time.Now(),
 	}
 
-	_, err = db.DB.Exec("INSERT INTO users (username, email, password_hash, full_name, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-		user.Username, user.Email, user.PasswordHash, user.FullName, user.Role, user.CreatedAt, user.UpdatedAt)
+	_, err = db.DB.Exec("INSERT INTO users (username, email, password_hash, full_name, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+		user.Username, user.Email, user.PasswordHash, user.FullName, user.CreatedAt, user.UpdatedAt)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
 		return
